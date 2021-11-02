@@ -12,17 +12,6 @@ import { OrbitControls } from './OrbitControls.js'
 import { XRControllerModelFactory } from './XRControllerModelFactory.js';
 import { TiltLoader, updateBrushes } from './three-tiltloader.module.js';
 
-// If you want to create OBJKT's with different seeds,
-// you can access the creator and viewer wallet ids.
-// This values will only be injected once the piece
-// has been minted they will not work locally.
-// If the user is not sync, the viewer comes in as false.
-const creator = new URLSearchParams(window.location.search).get('creator')
-const viewer = new URLSearchParams(window.location.search).get('viewer')
-
-console.log('NFT created by', creator)
-console.log('NFT viewed by', viewer)
-
 class Sketch {
   constructor() {
     this.renderer = new WebGLRenderer({
@@ -101,7 +90,8 @@ class Sketch {
       this.scene.updateableMeshes = tiltData.updateableMeshes
       this.mesh = tiltData.scene
 
-      // Tilt Brush/Open Brush doesn't center model on export. Here's a quick snippet to find it's geometric center
+      // Tilt Brush/Open Brush doesn't center model on export. Here's a quick snippet to find it's geometric center.
+      // You may need to adjust this depending on the bounds of your model, or use a different method entirely.
       const box = new Box3().setFromObject(this.mesh)
       const boxCenter = box.getCenter(new Vector3())
       this.controls.target.set(0, 0.95, 0)
