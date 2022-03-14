@@ -10,7 +10,8 @@ import {
 import { VRButton } from './VRButton.js';
 import { OrbitControls } from './OrbitControls.js'
 import { XRControllerModelFactory } from './XRControllerModelFactory.js';
-import { TiltLoader, updateBrushes } from './three-tiltloader.module.js';
+import { GLTFGoogleTiltBrushMaterialExtension } from './three-icosa.module.js';
+import { GLTFLoader } from './GLTFLoader.js';
 
 class Sketch {
   constructor() {
@@ -84,10 +85,9 @@ class Sketch {
   }
 
   addElements() {
-    const tiltLoader = new TiltLoader()
-    tiltLoader.setBrushDirectory('./brushes/')
-    tiltLoader.load( 'model.glb', ( tiltData ) => {
-      this.scene.updateableMeshes = tiltData.updateableMeshes
+    const gltfLoader = new GLTFLoader()
+    gltfLoader.register(parser => new GLTFGoogleTiltBrushMaterialExtension(parser, './brushes/', this.clock));
+    gltfLoader.load( 'model.glb', ( tiltData ) => {
       this.mesh = tiltData.scene
 
       // Tilt Brush/Open Brush doesn't center model on export. Here's a quick snippet to find it's geometric center.
