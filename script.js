@@ -5,6 +5,7 @@ import {
   Clock,
   Box3,
   Vector3,
+  Color,
 } from './three.module.js'
 
 import { VRButton } from './VRButton.js';
@@ -16,8 +17,7 @@ import { GLTFLoader } from './GLTFLoader.js';
 class Sketch {
   constructor() {
     this.renderer = new WebGLRenderer({
-      antialias: true,
-      //alpha: true
+      antialias: true
     })
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
     this.renderer.setSize(window.innerWidth, window.innerHeight)
@@ -33,6 +33,7 @@ class Sketch {
     this.camera.position.set(0, 0.95, 2)
 
     this.scene = new Scene()
+    this.scene.background = new Color(0, 0, 0);
 
     this.canvas = null
 
@@ -86,7 +87,7 @@ class Sketch {
 
   addElements() {
     const gltfLoader = new GLTFLoader()
-    gltfLoader.register(parser => new GLTFGoogleTiltBrushMaterialExtension(parser, './brushes/', this.clock));
+    gltfLoader.register(parser => new GLTFGoogleTiltBrushMaterialExtension(parser, './brushes/'));
     gltfLoader.load( 'model.glb', ( tiltData ) => {
       this.mesh = tiltData.scene
 
