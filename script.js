@@ -94,7 +94,6 @@ class Sketch {
       // Tilt Brush/Open Brush doesn't center model on export. Here's a quick snippet to find it's geometric center.
       // You may need to adjust this depending on the bounds of your model, or use a different method entirely.
       const box = new Box3().setFromObject(this.mesh)
-      const boxCenter = box.getCenter(new Vector3())
       this.controls.target.set(0, 0.95, 0)
       this.scene.add(this.mesh)
     });
@@ -108,8 +107,7 @@ class Sketch {
 
   render() {
     this.controls.update()
-    if(this.scene.updateableMeshes && this.mesh) {
-      updateBrushes(this.scene.updateableMeshes, this.clock.getElapsedTime(), this.camera.position);
+    if(this.mesh) {
       this.mesh.rotation.y = this.clock.getElapsedTime() * 0.35
     }
 
